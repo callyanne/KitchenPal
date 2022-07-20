@@ -1,6 +1,7 @@
 package com.example.kitchenpal.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchenpal.R;
+import com.example.kitchenpal.messagesFragment.ChatActivity;
 import com.example.kitchenpal.models.PantryItemsModel;
 import com.example.kitchenpal.models.RecipesViewerModel;
 
@@ -22,6 +24,7 @@ public class PantryItemsAdapter extends RecyclerView.Adapter<PantryItemsAdapter.
 
     Context context;
     List<PantryItemsModel> modelList;
+    String name, publisher;
 
     public PantryItemsAdapter(Context context, List<PantryItemsModel> list) {
         this.context = context;
@@ -36,17 +39,23 @@ public class PantryItemsAdapter extends RecyclerView.Adapter<PantryItemsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        name = modelList.get(position).getItemName();
+        publisher = modelList.get(position).getPublisher();
+
         holder.image.setImageResource(modelList.get(position).getImage());
-        holder.publisher.setText(modelList.get(position).getPublisher());
-        holder.itemName.setText(modelList.get(position).getItemName());
+        holder.publisher.setText(publisher);
+        holder.itemName.setText(name);
         holder.condition.setText(modelList.get(position).getCondition());
 
-//        holder.chatButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+        holder.chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("publisher", publisher);
+                intent.putExtra("item name", name);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -59,7 +68,7 @@ public class PantryItemsAdapter extends RecyclerView.Adapter<PantryItemsAdapter.
 
         ImageView image;
         TextView itemName, publisher, condition;
-        ToggleButton chatButton;
+        Button chatButton;
 
         public ViewHolder(View v) {
             super(v);

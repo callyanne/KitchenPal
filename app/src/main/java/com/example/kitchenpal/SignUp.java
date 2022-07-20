@@ -23,6 +23,7 @@ public class SignUp extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     private EditText etUsername, etEmail, etPassword, etReenterPassword;
+    private String username;
     private TextView loginLink, signup;
 
 
@@ -56,14 +57,8 @@ public class SignUp extends AppCompatActivity{
         etReenterPassword = findViewById(R.id.reenterPassword);
     }
 
-    private void switchToLogin(){
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-        finish();
-    }
-
     private void signup() {
-        String username = etUsername.getText().toString().trim();
+        username = etUsername.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String reenterPassword = etReenterPassword.getText().toString().trim();
@@ -132,6 +127,12 @@ public class SignUp extends AppCompatActivity{
                 });
     }
 
+    private void switchToLogin(){
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void registerUser(String username, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -151,6 +152,10 @@ public class SignUp extends AppCompatActivity{
                                                 etEmail.setEnabled(false);
                                                 etPassword.setEnabled(false);
                                                 etReenterPassword.setEnabled(false);
+
+                                                //save username to memory
+                                                MemoryData.saveUsername(username, SignUp.this);
+
                                                 Toast.makeText(SignUp.this, "User has been registered successfully!", Toast.LENGTH_SHORT).show();
                                                 switchToLogin();
                                             } else {

@@ -1,9 +1,11 @@
 package com.example.kitchenpal.pantryFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kitchenpal.R;
 import com.example.kitchenpal.adapters.PantryItemsAdapter;
 import com.example.kitchenpal.adapters.RecipesViewerAdapter;
+import com.example.kitchenpal.messagesFragment.ChatActivity;
 import com.example.kitchenpal.models.PantryItemsModel;
 import com.example.kitchenpal.models.RecipesViewerModel;
 
@@ -71,7 +74,7 @@ public class PantryFragment extends Fragment {
             }
         });
 
-        itemsModelList.add(new PantryItemsModel(R.drawable.fries, "french flour", "user10","Brand New"));
+        itemsModelList.add(new PantryItemsModel(R.drawable.fries, "french flour", "elyseleong","Brand New"));
         itemsModelList.add(new PantryItemsModel(R.drawable.fries, "baking powder", "user9","Opened"));
         itemsModelList.add(new PantryItemsModel(R.drawable.fries, "chocolate", "user8","Opened"));
         itemsModelList.add(new PantryItemsModel(R.drawable.fries, "flour", "user7","Brand New"));

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.kitchenpal.messagesFragment.MessagesFragment;
 import com.example.kitchenpal.profileFragment.ProfileFragment;
 import com.example.kitchenpal.recipesFragment.RecipesFragment;
 import com.example.kitchenpal.pantryFragment.PantryFragment;
@@ -27,12 +28,19 @@ public class HomePage extends AppCompatActivity {
                 case R.id.profile_nav:
                     replaceFragment(new ProfileFragment());
                     break;
+
                 case R.id.upload_nav:
                     replaceFragment(new UploadFragment());
                     break;
+
                 case R.id.pantry_nav:
                     replaceFragment(new PantryFragment());
                     break;
+
+                case R.id.chat_nav:
+                    replaceFragment(new MessagesFragment());
+                    break;
+
                 case R.id.recipes_nav:
                 default:
                     replaceFragment(new RecipesFragment());

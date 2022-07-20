@@ -1,10 +1,11 @@
 package com.example.kitchenpal.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kitchenpal.R;
-import com.example.kitchenpal.messageFragment.MessagesList;
+import com.example.kitchenpal.messagesFragment.ChatActivity;
+import com.example.kitchenpal.models.MessagesList;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder> {
 
-    private final List<MessagesList> messagesLists;
+    private List<MessagesList> messagesLists;
     private final Context context;
 
     public MessagesAdapter(List<MessagesList> messagesLists, Context context) {
@@ -36,9 +38,36 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MessagesAdapter.MyViewHolder holder, int position) {
+        MessagesList list = messagesLists.get(position);
 
+         holder.username.setText(list.getUsername());
+         holder.lastMessage.setText(list.getLastMessage());
+
+         if(list.getUnseenMessages() == 0) {
+             holder.unseenMessages.setVisibility(View.GONE);
+             holder.lastMessage.setTextColor(Color.parseColor("#959595"));
+         } else {
+             holder.unseenMessages.setVisibility(View.VISIBLE);
+             holder.unseenMessages.setText(list.getUnseenMessages()+"");
+             holder.lastMessage.setTextColor(context.getResources().getColor(R.color.green));
+         }
+
+         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(context, ChatActivity.class);
+                 intent.putExtra("username", list.getUsername());
+                 intent.putExtra("chat key", list.getChatKey());
+
+                 context.startActivity(intent);
+             }
+         });
     }
 
+    public void updateData(List<MessagesList> messagesLists) {
+        this.messagesLists = messagesLists;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return messagesLists.size();
@@ -48,7 +77,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         private CircleImageView profilePic;
         private TextView username;
         private TextView lastMessage;
-        private TextView unseenMesages;
+        private TextView unseenMessages;
         private LinearLayout rootLayout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -57,7 +86,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
             profilePic = itemView.findViewById(R.id.profile_pic);
             username = itemView.findViewById(R.id.messages_username);
             lastMessage = itemView.findViewById(R.id.last_message);
-            unseenMesages = itemView.findViewById(R.id.unseenMessages);
+            unseenMessages = itemView.findViewById(R.id.unseenMessages);
             rootLayout = itemView.findViewById(R.id.rootLayout);
         }
     }

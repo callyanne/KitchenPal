@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.kitchenpal.FirebaseHelper;
+import com.example.kitchenpal.FirebaseSuccessListener;
 import com.example.kitchenpal.Login;
 import com.example.kitchenpal.R;
 import com.example.kitchenpal.objects.User;
@@ -35,10 +37,6 @@ public class ProfileFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewpager;
     TextView profileUsername;
-    String username;
-    FirebaseAuth mAuth;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference myRef;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -59,28 +57,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = firebaseDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid());
-
-        myRef.addValueEventListener(new ValueEventListener() {
+        FirebaseHelper.getUsernameFB(new FirebaseSuccessListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                username = snapshot.child("username").getValue(String.class);
-                profileUsername.setText(username);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onDataFound(boolean isDataFetched) {
+                if(isDataFetched) {
+                    profileUsername.setText(FirebaseHelper.getCurrUsername());
+                }
             }
         });
 
         return view;
-    }
-
-    protected String getUsername() {
-        return this.username;
     }
 
     private void addFragment(View view) {

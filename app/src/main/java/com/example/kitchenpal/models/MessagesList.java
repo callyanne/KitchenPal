@@ -1,15 +1,15 @@
-package com.example.kitchenpal.messageFragment;
+package com.example.kitchenpal.models;
 
 public class MessagesList {
 
-    private String username, lastMessage, profilePic;
+    private String username, lastMessage, profilePic, chatKey;
     private int unseenMessages;
 
-    public MessagesList(String username, String lastMessage, String profilePic, int unseenMessages) {
+    public MessagesList(String username, String lastMessage, int unseenMessages, String chatKey) {
         this.username = username;
         this.lastMessage = lastMessage;
         this.unseenMessages = unseenMessages;
-        this.profilePic = profilePic;
+        this.chatKey = chatKey;
     }
 
     public String getUsername() {
@@ -20,10 +20,11 @@ public class MessagesList {
         return lastMessage;
     }
 
-    public String getProfilePic() {
-        return profilePic;
-    }
     public int getUnseenMessages() {
         return unseenMessages;
+    }
+
+    public String getChatKey() {
+        return chatKey;
     }
 }

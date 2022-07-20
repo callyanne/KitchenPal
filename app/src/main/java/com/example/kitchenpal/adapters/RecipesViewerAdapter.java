@@ -29,6 +29,8 @@ import java.util.List;
 public class RecipesViewerAdapter extends RecyclerView.Adapter<RecipesViewerAdapter.ViewHolder> {
     Context context;
     List<RecipesViewerModel> listModels;
+    String name, publisher;
+    int image;
 
     public RecipesViewerAdapter(Context context, List<RecipesViewerModel> list) {
         this.context = context;
@@ -43,12 +45,11 @@ public class RecipesViewerAdapter extends RecyclerView.Adapter<RecipesViewerAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String name = listModels.get(position).getRecipeName();
-        String publisher = listModels.get(position).getPublisher();
-        int image  = listModels.get(position).getImage();
+        name = listModels.get(position).getRecipeName();
+        publisher = listModels.get(position).getPublisher();
+        image  = listModels.get(position).getImage();
         boolean isFavourites = listModels.get(position).isFavourite();
 
-        //set the relevant information
         holder.image.setImageResource(image);
         holder.recipeName.setText(name);
         holder.createdBy.setText(publisher);
